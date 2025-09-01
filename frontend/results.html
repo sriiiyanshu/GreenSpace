@@ -1,0 +1,43 @@
+<!-- results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanInfra - Analysis Results</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Analysis Results</h1>
+        <a href="index.html" class="back-link">&larr; Analyze a New Area</a>
+
+        <div id="result-content">
+            <!-- UPDATED: This container will now hold both the image and the markers -->
+            <div id="image-container" class="image-container">
+                <img id="analyzed-image" src="" alt="Analyzed satellite image">
+                <!-- Markers will be injected here by JavaScript -->
+            </div>
+
+            <div class="summary">
+                <h2>Overall Assessment</h2>
+                <p><strong>Status:</strong> <span id="status"></span></p>
+                <p><strong>Greenery Score:</strong> <span id="score"></span> / 10</p>
+                <p id="justification"></p>
+            </div>
+
+            <div id="recommendations-container" style="display: none;">
+                <h2>Recommended Locations for New Parks</h2>
+                <p class="instructions">Hover over a number or a card below to highlight the corresponding location on the map.</p>
+                <div id="recommendations-list"></div>
+            </div>
+        </div>
+        
+        <div id="results-loader">
+            <p>Loading analysis...</p>
+        </div>
+    </div>
+
+    <script src="results.js"></script>
+</body>
+</html>

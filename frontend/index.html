@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanInfra - Area Selector</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>UrbanInfra - Greenery Area Selector</h1>
+        <p>Use the rectangle tool on the map to select an area of interest. The selected area will be generated as a satellite image below.</p>
+
+        <div id="map"></div>
+
+        <!-- This section will be hidden until an image is generated -->
+        <div id="output-container" style="display: none;">
+            <h2>Selected Area Preview</h2>
+            <img id="static-map-image" src="" alt="Satellite view of the selected area">
+
+            <!-- NEW: Analyze button and loader -->
+            <div class="actions">
+                <button id="analyze-btn" class="button">Analyze Area</button>
+                <div id="loader" class="loader" style="display: none;"></div>
+            </div>
+            <p id="error-message" class="error"></p>
+        </div>
+    </div>
+
+    <!-- 
+      The Google Maps API script. 
+      - Replace YOUR_API_KEY with your actual API key.
+      - `libraries=drawing` loads the drawing tools.
+      - `callback=initMap` tells the API to run our initMap function once it's loaded.
+    -->
+    <script src="script.js"></script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWJLOb6h0KULNPD3lt6_FHRvgZtenWfIc&libraries=drawing&callback=initMap">
+</script>
+
+</body>
+</html>

@@ -4,13 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UrbanInfra - Area Selector</title>
+    <title>UrbanInfra - IMPALA</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="navbar">
-        <div class="navbar-icon">&#9881;</div> <!-- Settings Icon -->
+        <div class="navbar-icon" id="settings-icon">&#9881;</div> <!-- Settings Icon -->
+        <div class="settings-dropdown" id="settings-dropdown">
+            <div class="dropdown-item">
+                <label for="labels-toggle">Show Labels</label>
+                <label class="switch">
+                    <input type="checkbox" id="labels-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
         <div class="navbar-title">UrbanInfra</div>
         <div class="navbar-icon">&#128100;</div> <!-- Account Icon -->
     </div>
@@ -34,7 +43,7 @@
 
     <script src="script.js"></script>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=KEY&libraries=drawing&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWJLOb6h0KULNPD3lt6_FHRvgZtenWfIc&libraries=drawing&callback=initMap">
     </script>
 
 </body>

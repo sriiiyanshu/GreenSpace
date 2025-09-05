@@ -1,20 +1,26 @@
 let map;
 let API_KEY;
 
+// Define map styles
+const styles = {
+  default: [],
+  hideLabels: [
+    { elementType: "labels", featureType: "all", stylers: [{ visibility: "off" }] },
+    { featureType: "road", stylers: [{ visibility: "off" }] },
+  ],
+};
+
 function initMap() {
   const scriptTag = document.querySelector('script[src*="maps.googleapis.com"]');
   const scriptSrc = scriptTag.src;
   API_KEY = new URLSearchParams(scriptSrc.split("?")[1]).get("key");
 
   const mapOptions = {
-    center: { lat: 40.7128, lng: -74.006 },
+    center: { lat: 28.6188330349765, lng: 77.3679098161358 },
     zoom: 12,
     mapTypeId: "satellite",
     disableDefaultUI: true, // Clean map
-    styles: [
-      { elementType: "labels", featureType: "all", stylers: [{ visibility: "off" }] },
-      { featureType: "road", stylers: [{ visibility: "off" }] }
-    ]
+    styles: styles.hideLabels
   };
 
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -46,6 +52,31 @@ function initMap() {
 
     // Hide the usage tip
     document.getElementById('usage-tip').classList.add('hidden');
+  });
+
+  // --- Settings Dropdown Logic ---
+  const settingsIcon = document.getElementById('settings-icon');
+  const settingsDropdown = document.getElementById('settings-dropdown');
+  const labelsToggle = document.getElementById('labels-toggle');
+
+  settingsIcon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    settingsDropdown.classList.toggle('visible');
+  });
+
+  labelsToggle.addEventListener('change', () => {
+    if (labelsToggle.checked) {
+      map.setOptions({ styles: styles.default });
+    } else {
+      map.setOptions({ styles: styles.hideLabels });
+    }
+  });
+
+  // Close dropdown if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!settingsDropdown.contains(e.target) && settingsDropdown.classList.contains('visible')) {
+      settingsDropdown.classList.remove('visible');
+    }
   });
 }
 

@@ -5,10 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const loader = document.getElementById('results-loader');
     const content = document.getElementById('result-content');
-    const backLink = document.querySelector('.navbar-title');
+    const backButton = document.getElementById('back-button');
 
-    backLink.style.cursor = 'pointer';
-    backLink.addEventListener('click', () => {
+    backButton.addEventListener('click', () => {
         document.body.classList.add('fade-out');
         setTimeout(() => {
             window.location.href = 'index.html';

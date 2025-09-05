@@ -3,7 +3,10 @@ let API_KEY;
 
 // Define map styles
 const styles = {
-  default: [],
+  default: [
+    { elementType: "labels", featureType: "all", stylers: [{ visibility: "on" }] },
+    { featureType: "road", stylers: [{ visibility: "on" }] },
+  ],
   hideLabels: [
     { elementType: "labels", featureType: "all", stylers: [{ visibility: "off" }] },
     { featureType: "road", stylers: [{ visibility: "off" }] },
@@ -20,6 +23,7 @@ function initMap() {
     zoom: 12,
     mapTypeId: "satellite",
     disableDefaultUI: true, // Clean map
+    streetViewControl: true, // Enable Street View
     styles: styles.hideLabels
   };
 
@@ -27,11 +31,7 @@ function initMap() {
 
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.RECTANGLE,
-    drawingControl: true,
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: [google.maps.drawing.OverlayType.RECTANGLE],
-    },
+    drawingControl: false, // We have our own controls
     rectangleOptions: {
       fillColor: "#4CAF50",
       fillOpacity: 0.2,
@@ -52,7 +52,27 @@ function initMap() {
 
     // Hide the usage tip
     document.getElementById('usage-tip').classList.add('hidden');
+    // Deactivate rectangle tool
+    document.getElementById('rectangle-tool').classList.remove('active');
+    document.getElementById('pan-tool').classList.add('active');
   });
+
+  // --- Map Tools Logic ---
+  const rectangleTool = document.getElementById('rectangle-tool');
+  const panTool = document.getElementById('pan-tool');
+
+  rectangleTool.addEventListener('click', () => {
+    drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+    rectangleTool.classList.add('active');
+    panTool.classList.remove('active');
+  });
+
+  panTool.addEventListener('click', () => {
+    drawingManager.setDrawingMode(null);
+    panTool.classList.add('active');
+    rectangleTool.classList.remove('active');
+  });
+
 
   // --- Settings Dropdown Logic ---
   const settingsIcon = document.getElementById('settings-icon');

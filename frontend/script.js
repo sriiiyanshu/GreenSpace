@@ -10,6 +10,11 @@ function initMap() {
     center: { lat: 40.7128, lng: -74.006 },
     zoom: 12,
     mapTypeId: "satellite",
+    disableDefaultUI: true, // Clean map
+    styles: [
+      { elementType: "labels", featureType: "all", stylers: [{ visibility: "off" }] },
+      { featureType: "road", stylers: [{ visibility: "off" }] }
+    ]
   };
 
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -38,6 +43,9 @@ function initMap() {
     const bounds = rectangle.getBounds();
     generateStaticMapImage(bounds);
     rectangle.setMap(null); // Remove the drawn rectangle from the map
+
+    // Hide the usage tip
+    document.getElementById('usage-tip').classList.add('hidden');
   });
 }
 
@@ -52,10 +60,8 @@ function generateStaticMapImage(bounds) {
   const analyzeBtn = document.getElementById("analyze-btn");
 
   imageElement.src = staticMapUrl;
-  outputContainer.style.display = "block";
-  outputContainer.scrollIntoView({ behavior: "smooth" });
+  outputContainer.classList.add("visible");
 
-  // Add event listener to the analyze button ONLY after the image is ready
   analyzeBtn.onclick = () => analyzeArea(staticMapUrl);
 }
 
@@ -64,14 +70,12 @@ async function analyzeArea(imageUrl) {
   const loader = document.getElementById("loader");
   const errorMessage = document.getElementById("error-message");
 
-  // Show loader and disable button
   loader.style.display = "block";
   analyzeBtn.disabled = true;
   analyzeBtn.textContent = "Analyzing...";
   errorMessage.textContent = "";
 
   try {
-    // Call our backend API
     const response = await fetch("https://urban-infra-backend-637815989971.us-central1.run.app/analyze", {
       method: "POST",
       headers: {
@@ -87,16 +91,18 @@ async function analyzeArea(imageUrl) {
 
     const analysisResult = await response.json();
 
-    // Store results in sessionStorage to pass to the next page
     sessionStorage.setItem("analysisResult", JSON.stringify(analysisResult));
     sessionStorage.setItem("analyzedImageUrl", imageUrl);
 
-    // Redirect to the results page
-    window.location.href = "results.html";
+    // Fade out and redirect
+    document.body.classList.add('fade-out');
+    setTimeout(() => {
+        window.location.href = "results.html";
+    }, 500); // Match CSS transition time
+
   } catch (error) {
     console.error("Analysis failed:", error);
     errorMessage.textContent = `Analysis failed: ${error.message}`;
-    // Hide loader and re-enable button
     loader.style.display = "none";
     analyzeBtn.disabled = false;
     analyzeBtn.textContent = "Analyze Area";
